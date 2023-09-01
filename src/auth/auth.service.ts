@@ -54,10 +54,10 @@ export class AuthService {
       sub: userId,
       email,
     };
-    const sercret = this.config.get('JWT_SERCRET');
+    const secret = this.config.get('JWT_SECRET');
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '5m',
-      secret: sercret,
+      secret: secret,
     });
     return {
       accessToken: token,
