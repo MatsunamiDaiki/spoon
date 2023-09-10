@@ -15,9 +15,9 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { TodoService } from './todo.service';
-import { CreateTaskDto } from './dto/task.dto';
+import { CreateTaskDto, CreateTaskMemoDto } from './dto/task.dto';
 import { UpdateTaskDto } from './dto/task.dto';
-import { Task } from '@prisma/client';
+import { Task, TaskMemo } from '@prisma/client';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('todo')
@@ -40,6 +40,11 @@ export class TodoController {
   @Post()
   createTask(@Req() req: Request, @Body() dto: CreateTaskDto): Promise<Task> {
     return this.todoService.createTask(req.user.id, dto);
+  }
+
+  @Post('memo')
+  createTaskMemo(@Body() dto: CreateTaskMemoDto): Promise<TaskMemo> {
+    return this.todoService.createTaskMemo(dto)
   }
 
   @Patch(':id')
