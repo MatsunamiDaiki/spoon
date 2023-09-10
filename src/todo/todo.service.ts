@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Task } from '@prisma/client';
+import { Task, TaskMemo } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { CreateTaskDto, CreateTaskMemoDto, UpdateTaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TodoService {
@@ -13,7 +13,10 @@ export class TodoService {
       },
       orderBy: {
         createdAt: 'desc',
-      }
+      },
+      include: {
+        TaskMemo: true, // TaskMemoとの結合を有効にする
+      },
     })
   }
 
@@ -34,6 +37,16 @@ export class TodoService {
       }
     })
     return task;
+  }
+
+  async createTaskMemo(dto: CreateTaskMemoDto): Promise<TaskMemo> {
+    const taskMemo = await this.prisma.taskMemo.create({
+      data: {
+        taskId: dto.taskId,
+        memo: dto.memo
+      }
+    })
+    return taskMemo
   }
 
   async updateTaskById(

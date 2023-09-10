@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateTaskDto {
   @IsString()
@@ -18,4 +18,14 @@ export class UpdateTaskDto {
   @IsString()
   @IsOptional()
   description?: string;
+}
+
+export class CreateTaskMemoDto {
+  @IsNumber()
+  @IsNotEmpty()
+  taskId: number;
+
+  @IsString()
+  @IsNotEmpty()
+  memo: string;
 }
