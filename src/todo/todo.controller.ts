@@ -43,8 +43,9 @@ export class TodoController {
   }
 
   @Post('memo')
-  createTaskMemo(@Body() dto: CreateTaskMemoDto): Promise<TaskMemo> {
-    return this.todoService.createTaskMemo(dto)
+  async createTaskMemo(@Body() dto: CreateTaskMemoDto): Promise<TaskMemo[]> {
+    const taskMemos = await this.todoService.createTaskMemo(dto);
+    return taskMemos;
   }
 
   @Patch(':id')

@@ -39,14 +39,20 @@ export class TodoService {
     return task;
   }
 
-  async createTaskMemo(dto: CreateTaskMemoDto): Promise<TaskMemo> {
-    const taskMemo = await this.prisma.taskMemo.create({
-      data: {
-        taskId: dto.taskId,
-        memo: dto.memo
-      }
-    })
-    return taskMemo
+  async createTaskMemo(dto: CreateTaskMemoDto): Promise<TaskMemo[]> {
+    const createdTaskMemos = await Promise.all(
+      dto.memo.map(async (memo: string) => {
+        const taskMemo = await this.prisma.taskMemo.create({
+          data: {
+            taskId: dto.taskId,
+            memo,
+          },
+        });
+        return taskMemo;
+      })
+    );
+  
+    return createdTaskMemos;
   }
 
   async updateTaskById(
