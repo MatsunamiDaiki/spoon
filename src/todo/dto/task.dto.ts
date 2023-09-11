@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateTaskDto {
   @IsString()
@@ -25,7 +25,8 @@ export class CreateTaskMemoDto {
   @IsNotEmpty()
   taskId: number;
 
-  @IsString()
-  @IsNotEmpty()
-  memo: string;
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsString({ each: true })
+  memo: string[];
 }
