@@ -1,4 +1,12 @@
-import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { 
+  ArrayMinSize, 
+  IsArray, 
+  IsInt, 
+  IsNotEmpty, 
+  IsNumber, 
+  IsOptional, 
+  IsString 
+} from "class-validator";
 
 export class CreateTaskDto {
   @IsString()
@@ -29,4 +37,11 @@ export class CreateTaskMemoDto {
   @ArrayMinSize(1)
   @IsString({ each: true })
   memo: string[];
+}
+
+export class DeleteTaskMemoDto {
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsInt({ each: true })
+  taskMemoIds: number[];
 }
