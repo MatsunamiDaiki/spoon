@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Task, TaskMemo } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTaskDto, CreateTaskMemoDto, UpdateTaskDto } from './dto/task.dto';
+import { CreateTaskDto, CreateTaskMemoDto, DeleteTaskMemoDto, UpdateTaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TodoService {
@@ -94,5 +94,15 @@ export class TodoService {
         id: taskId,
       },
     });
+  }
+
+  async deketeTaskMemo(dto: DeleteTaskMemoDto): Promise<void> {
+    await this.prisma.taskMemo.deleteMany({
+      where: {
+        id: {
+          in: dto.taskMemoIds,
+        }
+      }
+    })
   }
 }

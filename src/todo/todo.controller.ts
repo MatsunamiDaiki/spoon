@@ -15,7 +15,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { TodoService } from './todo.service';
-import { CreateTaskDto, CreateTaskMemoDto } from './dto/task.dto';
+import { CreateTaskDto, CreateTaskMemoDto, DeleteTaskMemoDto } from './dto/task.dto';
 import { UpdateTaskDto } from './dto/task.dto';
 import { Task, TaskMemo } from '@prisma/client';
 
@@ -64,5 +64,11 @@ export class TodoController {
     @Param('id', ParseIntPipe) taskId: number,
   ): Promise<void> {
     return this.todoService.deleteTaskById(req.user.id, taskId);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete('memo')
+  deketeTaskMemo(@Body() dto: DeleteTaskMemoDto): Promise<void> {
+    return this.todoService.deketeTaskMemo(dto);
   }
 }
