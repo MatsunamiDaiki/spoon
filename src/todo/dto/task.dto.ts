@@ -1,12 +1,14 @@
 import { 
   ArrayMinSize, 
   IsArray, 
+  IsEnum, 
   IsInt, 
   IsNotEmpty, 
   IsNumber, 
   IsOptional, 
   IsString 
 } from "class-validator";
+import { TASK_STATUS } from "src/utils/enum";
 
 export class CreateTaskDto {
   @IsString()
@@ -26,6 +28,12 @@ export class UpdateTaskDto {
   @IsString()
   @IsOptional()
   description?: string;
+}
+
+export class UpdateTaskStatusDto {
+  @IsEnum(TASK_STATUS, { message: 'Invalid task status' })
+  @IsNotEmpty()
+  status: number;
 }
 
 export class CreateTaskMemoDto {

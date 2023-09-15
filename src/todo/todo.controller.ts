@@ -15,7 +15,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { TodoService } from './todo.service';
-import { CreateTaskDto, CreateTaskMemoDto, DeleteTaskMemoDto } from './dto/task.dto';
+import { CreateTaskDto, CreateTaskMemoDto, DeleteTaskMemoDto, UpdateTaskStatusDto } from './dto/task.dto';
 import { UpdateTaskDto } from './dto/task.dto';
 import { Task, TaskMemo } from '@prisma/client';
 
@@ -55,6 +55,15 @@ export class TodoController {
     @Body() dto: UpdateTaskDto,
   ): Promise<Task> {
     return this.todoService.updateTaskById(req.user.id, taskId, dto);
+  }
+
+  @Patch('status/:id')
+  updateTaskStatus(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) taskId: number,
+    @Body() dto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    return this.todoService.updateTaskStatus(req.user.id, taskId, dto);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)

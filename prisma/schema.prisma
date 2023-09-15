@@ -27,6 +27,7 @@ model Task {
   title       String
   description String?
   userId      Int
+  status      Int?       @default(0)
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   TaskMemo    TaskMemo[]
 }
